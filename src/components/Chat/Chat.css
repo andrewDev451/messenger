@@ -1,0 +1,144 @@
+.chat {
+    flex: 0.65;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat__header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.chat__headerInfo {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.chat__headerInfo > h3 {
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+
+.chat__body {
+    flex: 1;
+    background-color: rgb(250, 250, 250);
+    padding: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.chat__container {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.chat__container-receiver {
+    display: flex;
+    justify-content: end;
+}
+
+.chat__container-info {
+    margin-left: 12px;
+}
+
+.chat__message {
+    position: relative;
+    font-size: 16px;
+    color: white;
+    padding: 12px;
+    border-radius: 20px;
+    width: fit-content;
+    background-color: #3C4252;
+    margin-bottom: 10px;
+}
+
+.chat__receiver {
+    margin-left: auto;
+    background-color: #E0E0E0;
+    color: black;
+}
+
+.chat__img > img {
+    display: none;
+}
+
+.chat__name {
+    position: absolute;
+    top: -15px;
+    font-weight: 800;
+    font-size: xx-small;
+}
+
+.chat__timestamp {
+    margin-left: 10px;
+    font-size: small;
+    color: gray;
+}
+
+.chat__timestamp-receiver {
+    margin-left: auto;
+    float: right;
+}
+
+.chat__footer {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid lightgray;
+    padding: 25px;
+}
+
+.chat__footer > form {
+    flex: 1;
+    display: flex;
+}
+
+.chat__footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FAFAFA;
+    width: 100%;
+    height: 35px;
+    border: 1px solid #E1E1E1;
+    border-radius: 18px;
+    padding: 5px;
+}
+
+.chat__footer-container > input {
+    width: 100%;
+    border: none;
+    background-color: #FAFAFA;
+    margin-left: 10px;
+}
+
+.chat__footer-container > button {
+    display: none;
+}
+
+.chat__footer-container > .MuiSvgIcon-root {
+    padding: 10px;
+    color: gray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

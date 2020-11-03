@@ -1,0 +1,29 @@
+.app {
+    display: grid;
+    place-items: center;
+    background-color: #dadbd3;
+    height: 100vh;
+}
+
+.app__body {
+    display: flex;
+    background-color: #F5F5F5;
+    margin-top: -20px;
+    height: 90vh;
+    width: 90vw;
+    box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.7);
+}
+
+.MuiAvatar-root {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.MuiBadge-anchorOriginBottomRightCircle {
+    right: 7% !important;
+}
+
+.MuiBadge-anchorOriginBottomRightCircle img {
+    width: 23px !important;
+    height: 23px !important;
+}
