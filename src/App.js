@@ -16,13 +16,13 @@ function App() {
             ) : (
                 <div className="app__body">
                     <Router>
-                        <Sidebar/>
+                        <Sidebar />
                         <Switch>
                             <Route path="/rooms/:roomId">
-                                <Chat/>
+                                <Chat />
                             </Route>
                             <Route path="/">
-                                <Chat/>
+                                <Chat />
                             </Route>
                         </Switch>
                     </Router>

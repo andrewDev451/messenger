@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './SidebarChat.css'
 import Avatar from "@material-ui/core/Avatar";
 import db from "../../firebase";
 import {Link} from "react-router-dom";
 import Badge from "@material-ui/core/Badge";
-import {withStyles} from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 
 const SidebarChat = ({ addNewChat, id, name, img }) => {
     const [messages, setMessages] = useState('')
-    console.log("IMG____________-", img)
 
     useEffect(() => {
         if (id) {
@@ -22,7 +21,6 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
                 )
         }
     }, [id])
-
 
     const createChat = () => {
         const roomName = prompt("Please enter name for chat")
@@ -66,7 +64,7 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
             </div>
         </Link>
     ) : (
-        <div onClick={createChat} className="sidebarChat">
+        <div onClick={ createChat } className="sidebarChat">
             <h2>Add new Chat</h2>
         </div>
     )

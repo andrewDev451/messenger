@@ -8,6 +8,9 @@ import firebase from 'firebase'
 import {useStateValue} from "../../StateProvider";
 import Badge from "@material-ui/core/Badge";
 import {withStyles} from "@material-ui/core";
+import alertify from 'alertifyjs'
+import 'alertifyjs/build/css/alertify.css';
+
 
 const Chat = () => {
     const [input, setInput] = useState('')
@@ -15,7 +18,8 @@ const Chat = () => {
     const [roomName, setRoomName] = useState('')
     const [image, setImage] = useState('')
     const [messages, setMessages] = useState([])
-    const [{user}, dispatch] = useStateValue()
+    const [chuckMessage, setChuckMessage] = useState('')
+    const [{user}] = useStateValue()
 
     useEffect(() => {
         if (roomId) {
@@ -42,6 +46,15 @@ const Chat = () => {
         }
     }, [roomId]);
 
+    useEffect(() => {
+        fetch("https://api.chucknorris.io/jokes/random")
+            .then(response => response.json())
+            .then(data => {
+                console.log("CHUCK NORRIS-----", data.value)
+                setChuckMessage(data.value)
+            })
+    }, [messages])
+
     const sendMessage = (e) => {
         e.preventDefault()
         db.collection("rooms")
@@ -52,10 +65,25 @@ const Chat = () => {
                 name: user.displayName,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
+
+        setTimeout(() => {
+            db.collection("rooms")
+                .doc(roomId)
+                .collection("messages")
+                .add({
+                    message: chuckMessage,
+                    name: "Chuck Norris",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                })
+
+                alertify.notify('You have a new message!', 'success', 5, function(){  console.log('dismissed'); });
+
+        }, 5000)
+
         setInput('')
     }
 
-    const options = { year: '2-digit', month: '2-digit', day: 'numeric', hour: 'numeric', minute: '2-digit'};
+    const options = {year: '2-digit', month: '2-digit', day: 'numeric', hour: 'numeric', minute: '2-digit'};
     const SmallAvatar = withStyles((theme) => ({
         root: {
             width: 10,
@@ -81,23 +109,26 @@ const Chat = () => {
                 <div className="chat__headerInfo">
                     <h3>{roomName}</h3>
                 </div>
-
             </div>
+
             <div className="chat__body">
                 {messages.map((message, id) => (
-                    <div key={id} className={`chat__container ${message.name === user.displayName && `chat__container-receiver`}`}>
+                    <div key={id}
+                         className={`chat__container ${message.name === user.displayName && `chat__container-receiver`}`}>
                         <Avatar className={message.name === user.displayName && `chat__img`} src={image}/>
                         <div className="chat__container-info">
                             <p className={`chat__message ${message.name === user.displayName && `chat__receiver`}`}>
                                 {message.message}
                             </p>
-                            <span className={`chat__timestamp ${message.name === user.displayName && `chat__timestamp-receiver`}`}>
-                                { new Date(message.timestamp?.toDate()).toLocaleDateString("en-US", options) }
+                            <span
+                                className={`chat__timestamp ${message.name === user.displayName && `chat__timestamp-receiver`}`}>
+                                {new Date(message.timestamp?.toDate()).toLocaleDateString("en-US", options)}
                         </span>
                         </div>
                     </div>
                 ))}
             </div>
+
             <div className="chat__footer">
                 <form>
                     <div className="chat__footer-container">
