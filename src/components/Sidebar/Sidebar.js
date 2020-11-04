@@ -11,7 +11,6 @@ import {withStyles} from '@material-ui/core/styles';
 const Sidebar = () => {
     const [rooms, setRooms] = useState([])
     const [{user}] = useStateValue()
-    console.log("ROOMS_____", rooms)
 
     useEffect(() => {
         const unsubscribe = db.collection('rooms')
@@ -56,7 +55,10 @@ const Sidebar = () => {
             <div className="sidebar__search">
                 <div className="sidebar__searchContainer">
                     <SearchOutlined/>
-                    <input placeholder="Search or start new chat" type="text"/>
+                    <input
+                        placeholder="Search or start new chat"
+                        type="text"
+                    />
                 </div>
             </div>
 

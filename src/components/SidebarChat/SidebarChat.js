@@ -57,13 +57,13 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
                         <Avatar src={ img } />
                     </Badge>
                     <div className="sidebarChat__info">
-                        <h2>{ name }</h2>
+                        <div className="sidebarChat__info-container">
+                            <h2>{ name }</h2> <span>{ timestamp }</span>
+                        </div>
                         <p>{ messages[0]?.message }</p>
                     </div>
                 </div>
-                <span className="sidebarChat__timestamp">
-                    { timestamp }
-                </span>
+
             </div>
         </Link>
     ) : (
