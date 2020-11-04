@@ -6,27 +6,29 @@ import SidebarChat from "../SidebarChat/SidebarChat";
 import db from "../../firebase";
 import {useStateValue} from "../../StateProvider";
 import Badge from "@material-ui/core/Badge";
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 
 const Sidebar = () => {
     const [rooms, setRooms] = useState([])
-    const [{user}, dispatch] = useStateValue()
+    const [{user}] = useStateValue()
+    console.log("ROOMS_____", rooms)
 
     useEffect(() => {
-        const unsubscribe = db.collection('rooms').onSnapshot((snapshot) =>
-            setRooms(snapshot.docs.map((doc) =>
-                ({
-                    id: doc.id,
-                    data: doc.data()
-                })
-            ))
-        )
+        const unsubscribe = db.collection('rooms')
+            .orderBy('timestamp', 'desc')
+            .onSnapshot((snapshot) =>
+                setRooms(snapshot.docs.map((doc) =>
+                    ({
+                        id: doc.id,
+                        data: doc.data()
+                    })
+                ))
+            )
 
         return () => {
             unsubscribe()
         }
     }, [])
-
 
     const SmallAvatar = withStyles((theme) => ({
         root: {
@@ -49,7 +51,6 @@ const Sidebar = () => {
                 >
                     <Avatar src={user?.photoURL}/>
                 </Badge>
-
             </div>
 
             <div className="sidebar__search">
@@ -60,7 +61,7 @@ const Sidebar = () => {
             </div>
 
             <div className="sidebar__chats">
-                <SidebarChat addNewChat />
+                <SidebarChat addNewChat/>
                 {rooms.map(room => (
                     <SidebarChat
                         key={room.id}

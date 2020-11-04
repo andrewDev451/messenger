@@ -76,6 +76,12 @@ const Chat = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 })
 
+            db.collection("rooms")
+                .doc(roomId)
+                .update({
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                })
+
                 alertify.notify('You have a new message!', 'success', 5, function(){  console.log('dismissed'); });
 
         }, 5000)

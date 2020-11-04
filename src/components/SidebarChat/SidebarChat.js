@@ -39,6 +39,7 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
             height: 10,
         },
     }))(Avatar);
+    const timestamp =  new Date( messages[0]?.timestamp?.toDate()).toLocaleDateString("en-US", options)
 
     return !addNewChat ? (
         <Link to={`/rooms/${id}`}>
@@ -60,7 +61,9 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
                         <p>{ messages[0]?.message }</p>
                     </div>
                 </div>
-                <span className="sidebarChat__timestamp">{ new Date( messages[0]?.timestamp?.toDate()).toLocaleDateString("en-US", options) }</span>
+                <span className="sidebarChat__timestamp">
+                    { timestamp }
+                </span>
             </div>
         </Link>
     ) : (
