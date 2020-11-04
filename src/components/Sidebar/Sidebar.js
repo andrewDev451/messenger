@@ -11,6 +11,9 @@ import {withStyles} from '@material-ui/core/styles';
 const Sidebar = () => {
     const [rooms, setRooms] = useState([])
     const [{user}] = useStateValue()
+    const [sidebarBool, setsidebarBool] = useState(true);
+    const [search, setSearch] = useState([]);
+    const [input, setInput] = useState("");
 
     useEffect(() => {
         const unsubscribe = db.collection('rooms')
@@ -36,6 +39,25 @@ const Sidebar = () => {
         },
     }))(Avatar);
 
+    const matcher = (s, values) => {
+        const re = RegExp(`.*${s.toLowerCase().split('').join('.*')}.*`)
+        return values.filter(v => v.data.name.toLowerCase().match(re));
+    };
+    const handleChange = (e) => {
+        setsidebarBool(false);
+        setInput(e.target.value);
+    }
+
+    useEffect(() => {
+        if (rooms.length > 0) {
+            setSearch(matcher(input, rooms));
+        }
+        if (input === "") {
+            setsidebarBool(true);
+        }
+    }, [input])
+
+
     return (
         <div className="sidebar">
             <div className="sidebar__header">
@@ -56,25 +78,83 @@ const Sidebar = () => {
                 <div className="sidebar__searchContainer">
                     <SearchOutlined/>
                     <input
+                        value={input}
+                        onChange={handleChange}
                         placeholder="Search or start new chat"
                         type="text"
                     />
                 </div>
             </div>
 
-            <div className="sidebar__chats">
-                <SidebarChat addNewChat/>
-                {rooms.map(room => (
-                    <SidebarChat
-                        key={room.id}
-                        id={room.id}
-                        name={room.data.name}
-                        img={room.data.img}
-                    />
-                ))}
-            </div>
-        </div>
-    )
+            {(sidebarBool) ? (
+                <div className="sidebar__chats">
+                    <SidebarChat addNewChat/>
+                    {rooms.map(room => (
+                        <SidebarChat
+                            key={room.id}
+                            id={room.id}
+                            name={room.data.name}
+                            img={room.data.img}
+                        />
+                    ))}
+                </div>
+
+            ) : (
+                <div className="sidebar__chats ">
+                    <SidebarChat addNewChat/>
+                    {search.map(room => (
+                        <SidebarChat
+                            key={room.id}
+                            id={room.id}
+                            name={room.data.name}
+                            img={room.data.img}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>)
 }
 
 export default Sidebar
+
+// return (
+//     <div className="sidebar">
+//         <div className="sidebar__header">
+//             <Badge
+//                 overlap="circle"
+//                 anchorOrigin={{
+//                     vertical: 'bottom',
+//                     horizontal: 'right',
+//                 }}
+//                 badgeContent={<SmallAvatar
+//                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Noun_Project_tick_icon_675776_cc.svg/768px-Noun_Project_tick_icon_675776_cc.svg.png"/>}
+//             >
+//                 <Avatar src={user?.photoURL}/>
+//             </Badge>
+//         </div>
+//
+//         <div className="sidebar__search">
+//             <div className="sidebar__searchContainer">
+//                 <SearchOutlined/>
+//                 <input
+//                     value={input}
+//                     onChange={handleChange}
+//                     placeholder="Search or start new chat"
+//                     type="text"
+//                 />
+//             </div>
+//         </div>
+//
+//         <div className="sidebar__chats">
+//             <SidebarChat addNewChat/>
+//             {rooms.map(room => (
+//                 <SidebarChat
+//                     key={room.id}
+//                     id={room.id}
+//                     name={room.data.name}
+//                     img={room.data.img}
+//                 />
+//             ))}
+//         </div>
+//     </div>
+// )
