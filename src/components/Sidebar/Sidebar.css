@@ -62,3 +62,10 @@
     background-color: white;
     border-right: 1px solid lightgray;
 }
+
+.sidebar__chats > h1 {
+    color: #7BC0D3;
+    margin: 20px;
+    font-size: 25px;
+    font-weight: inherit;
+}

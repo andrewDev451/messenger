@@ -6,12 +6,12 @@ import {Link} from "react-router-dom";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
 
-const SidebarChat = ({ addNewChat, id, name, img }) => {
+const SidebarChat = ({ id, name, img }) => {
     const [messages, setMessages] = useState('')
 
     useEffect(() => {
         if (id) {
-            db.collection('rooms')
+            const unsubscribe = db.collection('rooms')
                 .doc(id)
                 .collection('messages')
                 .orderBy('timestamp', 'desc')
@@ -19,18 +19,12 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
                     setMessages(snapshot.docs.map((doc) =>
                     doc.data()))
                 )
+
+            return () => {
+                unsubscribe()
+            }
         }
     }, [id])
-
-    const createChat = () => {
-        const roomName = prompt("Please enter name for chat")
-
-        if (roomName) {
-            db.collection('rooms').add({
-                name: roomName
-            })
-        }
-    }
 
     const options = { year: 'numeric', month: 'short', day: 'numeric'};
     const SmallAvatar = withStyles((theme) => ({
@@ -41,7 +35,7 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
     }))(Avatar);
     const timestamp =  new Date( messages[0]?.timestamp?.toDate()).toLocaleDateString("en-US", options)
 
-    return !addNewChat ? (
+    return (
         <Link to={`/rooms/${id}`}>
             <div className="sidebarChat">
                 <div className="sidebarChat__container">
@@ -66,10 +60,6 @@ const SidebarChat = ({ addNewChat, id, name, img }) => {
 
             </div>
         </Link>
-    ) : (
-        <div onClick={ createChat } className="sidebarChat">
-            <h2>Add new Chat</h2>
-        </div>
     )
 }
 

@@ -37,7 +37,7 @@
 
 .chat__container-receiver {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .chat__container-info {
@@ -112,10 +112,6 @@
     border: none;
     background-color: #FAFAFA;
     margin-left: 10px;
-}
-
-.chat__footer-container > button {
-    display: none;
 }
 
 .chat__footer-container > .MuiSvgIcon-root {

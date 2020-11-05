@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Avatar from "@material-ui/core/Avatar";
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
+import IconButton from "@material-ui/core/IconButton";
 import {useParams} from "react-router-dom";
 import './Chat.css'
 import db from "../../firebase";
@@ -47,13 +48,18 @@ const Chat = () => {
     }, [roomId]);
 
     useEffect(() => {
-        fetch("https://api.chucknorris.io/jokes/random")
+            fetch("https://api.chucknorris.io/jokes/random")
             .then(response => response.json())
             .then(data => {
-                console.log("CHUCK NORRIS-----", data.value)
                 setChuckMessage(data.value)
             })
     }, [messages])
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(scrollToBottom, [messages]);
 
     const sendMessage = (e) => {
         e.preventDefault()
@@ -82,7 +88,7 @@ const Chat = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 })
 
-                alertify.notify('You have a new message!', 'success', 5, function(){  console.log('dismissed'); });
+                alertify.notify('You have a new message!', 'success', 5);
 
         }, 5000)
 
@@ -96,6 +102,8 @@ const Chat = () => {
             height: 10,
         },
     }))(Avatar);
+    const messagesEndRef = useRef(null);
+
 
     return (
         <div className="chat">
@@ -133,6 +141,8 @@ const Chat = () => {
                         </div>
                     </div>
                 ))}
+
+                <div ref={messagesEndRef} />
             </div>
 
             <div className="chat__footer">
@@ -144,8 +154,9 @@ const Chat = () => {
                             placeholder="Type your message"
                             type="text"
                         />
-                        <button onClick={sendMessage} type="submit">Send a message</button>
-                        <SendOutlinedIcon/>
+                        <IconButton onClick={sendMessage} type="submit" >
+                            <SendOutlinedIcon />
+                        </IconButton>
                     </div>
                 </form>
             </div>

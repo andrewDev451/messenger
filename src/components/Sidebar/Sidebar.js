@@ -11,7 +11,7 @@ import {withStyles} from '@material-ui/core/styles';
 const Sidebar = () => {
     const [rooms, setRooms] = useState([])
     const [{user}] = useStateValue()
-    const [sidebarBool, setsidebarBool] = useState(true);
+    const [sidebarBool, setSidebarBool] = useState(true);
     const [search, setSearch] = useState([]);
     const [input, setInput] = useState("");
 
@@ -26,37 +26,36 @@ const Sidebar = () => {
                     })
                 ))
             )
-
         return () => {
             unsubscribe()
         }
     }, [])
-
-    const SmallAvatar = withStyles((theme) => ({
-        root: {
-            width: 10,
-            height: 10,
-        },
-    }))(Avatar);
-
-    const matcher = (s, values) => {
-        const re = RegExp(`.*${s.toLowerCase().split('').join('.*')}.*`)
-        return values.filter(v => v.data.name.toLowerCase().match(re));
-    };
-    const handleChange = (e) => {
-        setsidebarBool(false);
-        setInput(e.target.value);
-    }
 
     useEffect(() => {
         if (rooms.length > 0) {
             setSearch(matcher(input, rooms));
         }
         if (input === "") {
-            setsidebarBool(true);
+            setSidebarBool(true);
         }
     }, [input])
 
+    const matcher = (s, values) => {
+        const re = RegExp(`.*${s.toLowerCase().split('').join('.*')}.*`)
+        return values.filter(v => v.data.name.toLowerCase().match(re));
+    }
+
+    const handleChange = (e) => {
+        setSidebarBool(false);
+        setInput(e.target.value);
+    }
+
+    const SmallAvatar = withStyles((theme) => ({
+        root: {
+            width: 10,
+            height: 10,
+        },
+    }))(Avatar)
 
     return (
         <div className="sidebar">
@@ -88,7 +87,7 @@ const Sidebar = () => {
 
             {(sidebarBool) ? (
                 <div className="sidebar__chats">
-                    <SidebarChat addNewChat/>
+                    <h1>Chats</h1>
                     {rooms.map(room => (
                         <SidebarChat
                             key={room.id}
@@ -101,7 +100,7 @@ const Sidebar = () => {
 
             ) : (
                 <div className="sidebar__chats ">
-                    <SidebarChat addNewChat/>
+                    <h1>Chats</h1>
                     {search.map(room => (
                         <SidebarChat
                             key={room.id}
@@ -116,45 +115,3 @@ const Sidebar = () => {
 }
 
 export default Sidebar
-
-// return (
-//     <div className="sidebar">
-//         <div className="sidebar__header">
-//             <Badge
-//                 overlap="circle"
-//                 anchorOrigin={{
-//                     vertical: 'bottom',
-//                     horizontal: 'right',
-//                 }}
-//                 badgeContent={<SmallAvatar
-//                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Noun_Project_tick_icon_675776_cc.svg/768px-Noun_Project_tick_icon_675776_cc.svg.png"/>}
-//             >
-//                 <Avatar src={user?.photoURL}/>
-//             </Badge>
-//         </div>
-//
-//         <div className="sidebar__search">
-//             <div className="sidebar__searchContainer">
-//                 <SearchOutlined/>
-//                 <input
-//                     value={input}
-//                     onChange={handleChange}
-//                     placeholder="Search or start new chat"
-//                     type="text"
-//                 />
-//             </div>
-//         </div>
-//
-//         <div className="sidebar__chats">
-//             <SidebarChat addNewChat/>
-//             {rooms.map(room => (
-//                 <SidebarChat
-//                     key={room.id}
-//                     id={room.id}
-//                     name={room.data.name}
-//                     img={room.data.img}
-//                 />
-//             ))}
-//         </div>
-//     </div>
-// )
