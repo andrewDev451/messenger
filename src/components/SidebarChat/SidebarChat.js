@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import './SidebarChat.css'
 import Avatar from "@material-ui/core/Avatar";
 import db from "../../firebase";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
+import {useStateValue} from "../../StateProvider";
+import {actionTypes} from "../../reducer";
 
 const SidebarChat = ({ id, name, img }) => {
     const [messages, setMessages] = useState('')
@@ -34,9 +36,18 @@ const SidebarChat = ({ id, name, img }) => {
         },
     }))(Avatar);
     const timestamp =  new Date( messages[0]?.timestamp?.toDate()).toLocaleDateString("en-US", options)
+    const [{togglerState}, dispatch]= useStateValue();
+
+    const handleChat =()=>{
+        dispatch({
+            type:actionTypes.SET_TOGGLER,
+            togglerState:togglerState+1
+        })
+
+    }
 
     return (
-        <Link to={`/rooms/${id}`}>
+        <Link to={`/rooms/${id}`} onClick={handleChat} >
             <div className="sidebarChat">
                 <div className="sidebarChat__container">
                     <Badge

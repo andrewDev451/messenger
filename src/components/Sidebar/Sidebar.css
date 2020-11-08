@@ -69,3 +69,17 @@
     font-size: 25px;
     font-weight: inherit;
 }
+
+.hide__sidebar{
+    display: none;
+}
+
+@media(max-width:628px){
+    .sidebar{
+        flex: 1;
+        margin-left: 0;
+    }
+    .sidebar__header{
+       display: block;
+    }
+}

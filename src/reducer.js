@@ -1,9 +1,11 @@
 export const initialState = {
-    user: null
+    user: null,
+    togglerState:1,
 }
 
 export const actionTypes = {
-    SET_USER: "SET_USER"
+    SET_USER: "SET_USER",
+    SET_TOGGLER:"SET_TOGGLER"
 }
 
 const reducer = (state, action) => {
@@ -12,6 +14,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 user: action.user
+            };
+        case actionTypes.SET_TOGGLER:
+            return {
+                ...state,
+                togglerState:action.togglerState
             }
 
         default:

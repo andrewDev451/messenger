@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/messanger.iml" filepath="$PROJECT_DIR$/.idea/messanger.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../tinder-clone/.idea/react-quiz.iml" filepath="$PROJECT_DIR$/../tinder-clone/.idea/react-quiz.iml" />
     </modules>
   </component>
 </project>

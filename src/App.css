@@ -27,3 +27,12 @@
     width: 23px !important;
     height: 23px !important;
 }
+
+@media(max-width:628px){
+    .app__body{
+        height: 100vh;
+        margin: 0 !important;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+}
